@@ -15,7 +15,7 @@ In other words, don't form a team on your own just yet, but rather focus on gene
 Proposal
 ---
 
-Submit project proposals using [this Google Form](https://goo.gl/forms/J5qe3WdokwvXW8FA3).
+Submit project proposals using [this Google Form](https://docs.google.com/forms/d/e/1FAIpQLSca7R6fNa67vwE2sFHNus7aqaeU9Brr_tIzb-9_tmZff4psdQ/viewform?usp=sf_link).
 You may submit more than one proposal.
 A good range would be: at least 2, at most 4, for any given team.
 
