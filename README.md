@@ -9,24 +9,12 @@ The path to a good visualization is going to involve mistakes and wrong turns.
 It is therefore important to recognize that mistakes are valuable in finding the path to a solution, to broadly explore the design space, and to iterate designs to improve possible solutions. 
 To help you explore the design space, we will hold events such as feedback sessions in which you propose your idea and initial designs and receive feedback from the class and staff.
 
-We will discuss how to form teams as part of the process.
-In other words, don't form a team on your own just yet, but rather focus on generating ideas.
-
 Proposal
 ---
 
 Submit project proposals using [this Google Form](https://docs.google.com/forms/d/e/1FAIpQLSca7R6fNa67vwE2sFHNus7aqaeU9Brr_tIzb-9_tmZff4psdQ/viewform?usp=sf_link).
 You may submit more than one proposal.
-A good range would be: at least 2, at most 4, for any given team.
-
-Prototype Presentation & Feedback
----
-
-For this Milestone we expect you to hand in your code and process documentation (see Process Book below) in it’s current state. You don’t have to hand in a screencast and you don’t have to have your website ready.
-
-For your Milestone you should have completed your data acquisition, or at least have a significant sample of your data. You must have your data structures in place. For example, if you plan to collect 1000 data records, but only have 200, that’s fine. If you are missing one of two datasets you want to use you will lose points, since you have to have the whole structure.
-
-You must have a working visualization prototype. You may not have all your views up and running, and it may not be completely interactive, but the direction and the content must be clear.
+1-3 folks per team.
 
 Final Project Materials
 ---
@@ -64,7 +52,7 @@ If you are not able to publish your work (e.g., due to confidential data) please
 ### Project Screen-Cast
 
 Each team will create a two minute screen-cast with narration showing a demo of your visualization and/or some slides. 
-You can use any [screencast tool](http://dataviscourse.net/2015/screencast/) of your choice -- Camtasia works well. 
+You can use any screencast tool of your choice, such as Camtasia. 
 Please make sure that the sound quality of your video is good - it may be worthwhile to invest in an external USB microphone. 
 Upload the video to an online video-platform such as YouTube or Vimeo and embed it into your project web page. 
 We will show some of the best videos in class.
@@ -114,7 +102,7 @@ GitHub Details
 - Fork the repo. You now have a copy associated with your username.
 - Make changes to index.html to fulfill the project requirements. 
 - Make sure your "master" branch matches your "gh-pages" branch. See the GitHub Guides referenced above if you need help.
-- Edit the README.md with a link to your gh-pages site: for example http://YourUsernameGoesHere.github.io/DataVisFinal/index.html
+- Edit the README.md with a link to your gh-pages or other external site: for example http://YourUsernameGoesHere.github.io/DataVisFinal/index.html
 - To submit, make a [Pull Request](https://help.github.com/articles/using-pull-requests/) on the original repository.
 
 Grading
