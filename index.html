@@ -1,99 +1,119 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-
-    <meta charset="UTF-8">
-    <title>CS480X Homework 4</title>
-    <!-- Load d3.js -->
-    <script src="https://d3js.org/d3.v3.min.js"></script>
-    <script src="https://d3js.org/d3.v4.js"></script>
+    <meta charset="utf-8">
+    <title>D3: Loading GeoJSON data and generating SVG paths</title>
+    <script data-require="d3@4.0.0" data-semver="4.0.0" src="https://d3js.org/d3.v4.min.js"></script>
+    <script src="https://d3js.org/d3.v4.min.js"></script>
+    <script src="https://d3js.org/d3.v5.min.js"></script>
     <script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
     <script src="https://d3js.org/d3-geo-projection.v2.min.js"></script>
-    <style>
-        /*div.tooltip {*/
-        /*    position: absolute;*/
-        /*    text-align: center;*/
-        /*    width: 80px;*/
-        /*    height: 30px;*/
-        /*    padding: 2px;*/
-        /*    font: 12px sans-serif;*/
-        /*    background: #fff;*/
-        /*    border: 0px;*/
-        /*    pointer-events: none;}*/
+    <style type="text/css">
+        /* No style rules here yet */
+        body,html{
+            margin: 0;
+            padding: 0;
+            font-family: "Arial", sans-serif;
+            font-size: 11px;
+            text-align: center;
+        }
+        #wrapper {
+            width: 1450px;
+            border: 1px solid black;
+            overflow: hidden; /* add this to contain floated children */
+        }
+        #pieMapWrapper {
+            width: 1230px;
+            border: 1px solid black;
+            overflow: hidden; /* add this to contain floated children */
+        }
+        #svgMap {
+            width: 675px;
+            height: 425px;
+            float: left;
+            border: 1px solid red;
+        }
+        #svgPie {
+            width: 550px;
+            height: 425px;
+            float: left;
+            border: 1px solid red;
+        }
+        #svgBar {
+            width: 1230px;
+            float: left;
+            border: 1px solid green;
+        }
+        #describe {
+            width: 215px;
+            float: left;
+        }
+        #chartWrapper {
+            width: 1230px;
+            border: 1px solid black;
+            float: left;
+            overflow: hidden; /* add this to contain floated children */
+        }
 
-        /*#BG {*/
-        /*    width: 1420px;*/
-        /*    border: 1px solid black;*/
-        /*    overflow: hidden; !* add this to contain floated children *!*/
-        /*}*/
-        /*#BG1 {*/
-        /*    width: 1420px;*/
-        /*    height: 825px;*/
-        /*    border: 1px solid blueviolet;*/
-        /*    overflow: hidden;*/
-        /*}*/
-        /*#BG2{*/
-        /*    width: 1420px;*/
-        /*    height: 800px;*/
-        /*    border: 1px solid lavender;*/
-        /*    overflow: hidden;*/
-        /*}*/
-        /*#BG3{*/
-        /*    width: 1420px;*/
-        /*    height: 600px;*/
-        /*    border: 1px solid rosybrown;*/
-        /*    overflow: hidden;*/
-        /*}*/
+        div.tooltip {
+            position: absolute;
+            text-align: left;
+            padding: 2px;
+            font: 9px "Times New Roman";
+            background: lightsteelblue;
+            border: 0px;
+            pointer-events: none;
+        }
+        /*
+        #chart{
+            background-color: #F5F2EB;
+            border: 1px solid #CCC;
+          }   */
     </style>
 </head>
-<body>
-<div id="BG">
-    <div id="BG1"></div>
-    <div id="BG2"></div>
-    <div id="BG3"></div>
-</div>
+<>
+<!--<div id="wrapper">-->
+<!--    <div id="chartWrapper">-->
+<!--        <div id="pieMapWrapper">-->
+<!--            <div id="svgMap"></div>-->
+<!--            <div id="svgPie"></div>-->
+<!--        </div>-->
+<!--        <div id="svgBar"></div>-->
+<!--    </div>-->
+<!--    <div id="describe">-->
+<!--        <h1>Interactive Visualization of the Agricultural Data in the USA</h1>-->
+<!--        <p>This is some text.</p>-->
+<!--        <hr>-->
+<!--    </div>-->
+<!--</div>-->
+<!--<script src="./Choropleth.js"></script>-->
+<!--&lt;!&ndash;<script src="./barChart.js"></script>&ndash;&gt;-->
+<!--&lt;!&ndash;<script src="./pieChart.js"></script>&ndash;&gt;-->
+<!--<script src="./main.js"></script>-->
+<button id = "G1">Group 1</button>
+<br>
+<br>
+<br>
+<button id = "G2">Group 2</button>
+<br>
+<br>
+<br>
+<button id = "G3">Group 3</button><br>
+<br>
+<br>
+<button id = "G4">Group 4</button>
+<br>
+<br>
+<br>
+<button id = "G5">Group 5</button>
+<br>
+<br>
+<br>
+<button id = "G6">Group 6</button>
+
 <script>
-    // Choroth Map
-    let widthMap = 675,
-        heightMap = 425,
-        marginMap = {top: 60, bottom: 40, left: 70, right: 40 };
-    // The svg
-    let svgMap = d3.select("#svgMap")
-        .append("svg")
-        .attr("id", "chart")
-        .attr("width", widthMap)
-        .attr("height", heightMap)
-        .append("g")
-        .attr("tranform", "translate(0" + marginMap.left + "," + marginMap.top + ")");
-
-    // Map and projection
-    let projection = d3.geoAlbersUsa()
-        .translate([275 + marginMap.left, 150 + marginMap.top])
-        .scale([800]);
-
-    // Data and color scale
-    var data = d3.map();
-    var keys = [0, 10, 20, 30 , 40 , 50, 60, 70];
-    var colorScale = d3.scaleThreshold()
-        .domain(keys)
-        .range(d3.schemeYlGnBu[8]);
-
-
-    function computeMin(data) {
-        var min = d3.min(data, function (d) {
-            return d.value;
-        });
-        return min;
-    }
-    function computeMax(data) {
-        var max = d3.max(data, function (d) {
-            return d.value;
-        });
-        return max;
-    }
-    function computeMinMax(data) {
-        var minmax = [computeMin(data), computeMax(data)];
-        return minmax
+    function computeSum(data){
+        return d3.sum(data);
     }
 
     function legendDots() {
@@ -109,6 +129,7 @@
             .style("stroke", "#000")
             .style("stroke-width", "0.5px");
     }
+
     function legendLabels(domain) {
         svgMap.selectAll("mydots")
             .data(domain)
@@ -117,60 +138,37 @@
             .style("fill", "black")
             .style("font-size", "9px")
             .attr("x", widthMap - 80)
-            .attr("y", function (d, i) { return heightMap - marginMap.bottom - marginMap.top + 3 - (1 - i) * 15 })
-            .text(function (d) { return d.toFixed(4); });
+            .attr("y", function (d, i) { return heightMap - marginMap.bottom - marginMap.top + i * 15 + 2.5 })
+            .text(function (d) { return Math.floor(d); });
     }
+
     function legend(data) {
-        let min = computeMin(data);
-        let max = computeMax(data);
-        let domain = [min, min + (max - min) / 5, min + 2 * (max - min) / 5, min + 3 * (max - min) / 5, min + 4 * (max - min) / 5, max]
         legendDots();
         legendLabels(domain)
-    };
+    }
 
-    function mapChart(data) {
-        let dataProcessed = new Array(52);
-        dataProcessed =
-            d3.json("us-states.json", function (json) {
-                //Merge the agriculture and GeoJSON data
-                //Loop through once for each agriculture data value
-                for (var i = 0; i < data.length; i++) {
-                    // grab state name
-                    var dataState = data[i].state;
-                    //grab data value, and convert from string to float
-                    var dataValue = parseFloat(data[i].value);
-                    //find the corresponding state inside the GeoJSON
-                    let n = 0;
-                    for (n = 0; n < json.features.length; n++) {
-                        // properties name gets the states name
-                        var jsonState = json.features[n].properties.name;
-                        // if statment to merge by name of state
-                        if (dataState == jsonState) {
-                            //Copy the data value into the JSON
-                            // basically creating a new value column in JSON data
-                            json.features[n].properties.value = dataValue;
-                            //stop looking through the JSON
-                            break;
-                        }
-                    }
+    function mapChart(data,json) {
+        for (let i = 0; i < data.length; i++) {
+            let dataState = data[i].State;
+            let dataValue = parseFloat(data[i].Counts);
+            let n = 0;
+            for (n = 0; n < json.features.length; n++) {
+                var jsonState = json.features[n].properties.name;
+                if (dataState == jsonState) {
+                    json.features[n].properties.value = dataValue;
+                    break;
                 }
-                // process data, add alaska, hawaii, dc, and potorico
-
-                for (var n = 0; n < json.features.length; n++){
-                    if (json.features[n].properties.value == null){
-                        json.features[n].properties.value = 'N/a';
-                    }
-                    let tempObj = {state: json.features[n].properties.name, value: json.features[n].properties.value};
-                    dataProcessed[n] = tempObj;
-                }
-                mapCharthelper(data,json);
-                console.log(dataProcessed);
-                return(dataProcessed);
-            });
-        return(dataProcessed);
+            }
+        }
+        for (var n = 0; n < json.features.length; n++){
+            if (json.features[n].properties.value == null){
+                json.features[n].properties.value = 0;
+            }
+        }
+        mapCharthelper(data,json);
     }
     function mapCharthelper(data,json) {
-        svgMap.selectAll("path")
+        let mapDot = svgMap.selectAll("path")
             .data(json.features)
             .enter()
             .append("path")
@@ -180,20 +178,13 @@
             .style("fill", function (d) {
                 //get the data value
                 var value = d.properties.value;
-                if (value) {
-                    //If value exists
-                    return color(value);
-                } else {
-                    // If value is undefined
-                    //we do this because alaska and hawaii are not in dataset we are using but still in projections
-                    return "#ccc"
-                }
+                return color(value);
             })
             .attr("class", function(d,i) { return "pt" + i; })
             .attr("id", function(d) { return "mapChart"; })
             .style("opacity", .9)
             .on("mouseover", function(d, i){
-                onMouseDimBar(true);
+                //onMouseDimBar(true);
                 onMouseDimMap(true);
                 onMouseLightSelectedPt(true,i);
                 tooltip
@@ -203,13 +194,15 @@
                     .style("top", (d3.event.pageY - 28) + "px");
             })
             .on("mouseout", function(d, i){
-                onMouseDimBar(false);
+                //onMouseDimBar(false);
                 onMouseDimMap(false);
                 onMouseLightSelectedPt(false,i);
                 tooltip
                     .style("opacity", 0);
             });
     }
+
+
 
     function onMouseDimMap(b) {
         d3.selectAll("#mapChart")
@@ -223,8 +216,7 @@
             .style("fill", (b) ?
                 "#d01c8b" :
                 function (d) {
-                    if (d.properties.value) { return color(d.properties.value);
-                    } else { return "#ccc" }
+                    return color(d.properties.value);
                 });
         d3.selectAll("rect.pt" + i)
             .style("opacity", 1)
@@ -245,7 +237,560 @@
         d3.selectAll("text.txt" + i)
             .style("opacity", (b) ? 1 : 0);
     }
+
+
+    // define color scale and color function
+
+    let colorScale = ["#ffffff","#f2f0f7","#dadaeb","#bcbddc","#9e9ac8","#756bb1","#54278f"];
+    let domain = [0.1,10.1,30.1,100.1,500.1,1000.1,4000.1];
+    let color = d3.scaleThreshold()
+        .domain(domain)
+        .range(colorScale);
+
+    //Width and height
+    let widthMap = 1400,
+        heightMap = 900,
+        marginMap = {top: 60, bottom: 40, left: 70, right: 40 };
+
+    let marginBar = {top: 20, right: 20, bottom: 100, left: 40},
+        widthBar = 1200 - marginBar.left - marginBar.right,
+        heightBar = 400 - marginBar.top - marginBar.bottom;
+
+    // let widthPie = 550,
+    //     heightPie = 425,
+    //     radiusPie = Math.min(widthPie,heightPie)/2;
+
+    // define map projection
+    let projection = d3.geoAlbersUsa()
+        .translate([650 + marginMap.left, 300 + marginMap.top])
+        .scale([1200]);
+
+    //Define default path generator
+    let path = d3.geoPath()
+        .projection(projection);
+
+    // // process pie data
+    // let pie = d3.pie()
+    //     .sort(null)
+    //     .value(function(d) { return d.value; });
+
+    // set the bar ranges
+    let x = d3.scaleBand()
+        .range([0, widthBar])
+        .padding(0.1);
+    let y = d3.scaleLinear()
+        .range([heightBar, 0]);
+
+    // // set the pie arc
+    // let arc = d3.arc()
+    //     .outerRadius(radiusPie - 20)
+    //     .innerRadius(0);
+    // // set the arc of the label of pie
+    // let labelArc = d3.arc()
+    //     .outerRadius(radiusPie - 5)
+    //     .innerRadius(radiusPie - 5);
+
+    //map svg
+    let svgMap = d3.select("body")
+        .append("svg")
+        .attr("id", "chart")
+        .attr("width", widthMap)
+        .attr("height", heightMap)
+        .append("g")
+        .attr("tranform", "translate(0" + marginMap.left + "," + marginMap.top + ")");
+
+    // // append the svg object to the body of the page
+    // // append a 'group' element to 'svg'
+    // // moves the 'group' element to the top left margin
+    // let svgBar = d3.select("#svgBar").append("svg")
+    //     .attr("width", widthBar + marginBar.left + marginBar.right)
+    //     .attr("height", heightBar + marginBar.top + marginBar.bottom)
+    //     .append("g")
+    //     .attr("transform",
+    //         "translate(" + marginBar.left + "," + marginBar.top + ")");
+    //
+    //
+    // // pie svg
+    // let svgPie = d3.select("#svgPie").append("svg")
+    //     .attr("width", widthPie)
+    //     .attr("height", heightPie)
+    //     .append("g")
+    //     .attr("transform", "translate(" + widthPie / 2 + "," + heightPie / 2 + ")");
+
+    // define tooptip
+    let tooltip = d3.select("body").append("div")
+        .attr("class", "tooltip")
+        .style("opacity", 1);
+
+    let sum = 0;
+
+    // read data and draw charts
+    var d_State, d_Earthquakes, d_Hour, d_Map;
+    Promise.all([
+        d3.csv("State.csv",function(d) {
+            return {
+                index : +d.index,
+                State : d.State,
+                Counts : +d.Counts
+            }}),
+        d3.csv("earthquakes.csv", function (d) {
+            return{
+                id : d.id,
+                impact: {
+                    gap: +d.gap,
+                    magnitude: +d.magnitude,
+                    significance: +d.significance
+                },
+                location: {
+                    depth: +d.depth,
+                    distance: +d.distance,
+                    latitude: +d.latitude,
+                    longitude: +d.longitude,
+                    name: d.name
+                },
+                time: {
+                    hour: +d.hour
+                }
+            }
+        }),
+        d3.csv("Hour.csv", function (d) {
+            return {
+                index : +d.index,
+                Hour : d.Hour,
+                Counts : +d.Counts
+            }
+        }),
+        d3.json("us-states.json"),
+    ]).then(function(data) {
+        d_State = data[0];
+        d_Earthquakes = data[1];
+        d_Hour = data[2];
+        d_Map = data[3];
+
+        legend(d_State);
+        mapChart(d_State,d_Map);
+
+        // Scale the range of the data in the domains
+        x.domain(data.map(function (d) { return d.state; }));
+        /*x.domain(dataProcessed.map(function (d) {
+            return d.state
+        }));*/
+        y.domain([0, d3.max(data, function (d) { return d.value; })]);
+
+        let places1 = [],
+            places2 = [],
+            places3 = [],
+            places4 = [],
+            places5 = [],
+            places6 = [];
+        let name1 = [],
+            name2 = [],
+            name3 = [],
+            name4 = [],
+            name5 = [],
+            name6 = [];
+
+
+
+        for (let i = 0; i < d_Earthquakes.length; i ++){
+            let tempPlace = [d_Earthquakes[i].location.longitude,d_Earthquakes[i].location.latitude],
+                tempMag = Math.round(d_Earthquakes[i].impact.magnitude),
+                tempSName = d_Earthquakes[i].location.name;
+            console.log(tempMag)
+            if (tempMag === 1){
+                places1.push(tempPlace);
+                name1.push(tempSName);
+            }else if (tempMag === 2){
+                places2.push(tempPlace);
+                name2.push(tempSName);
+            }else if (tempMag === 3){
+                places3.push(tempPlace);
+                name3.push(tempSName);
+            }else if (tempMag === 4){
+                places4.push(tempPlace);
+                name4.push(tempSName);
+            }else if (tempMag === 5){
+                places5.push(tempPlace);
+                name5.push(tempSName);
+            }else if (tempMag === 6){
+                places6.push(tempPlace);
+                name6.push(tempSName);
+            }
+        }
+
+
+        // or insert your own custom dots by hand
+        let group1 = svgMap.selectAll("circle")
+            .data(places1).enter()
+            .append("circle")
+            .attr("transform", function(d){
+                return "translate(" + projection(d) + ")";
+            })
+            .attr("r", "2px")
+            .attr("fill", "black")
+            .attr("opacity", 0.5)
+
+
+
+        let group2 = svgMap.selectAll("circle")
+            .data(places2, function(d) { return d; }).enter()
+            .append("circle")
+            .attr("transform", function(d){
+                return "translate(" + projection(d) + ")";
+            })
+            .attr("r", "4px")
+            .attr("opacity", 0.5)
+            .attr("fill", "black")
+
+        let group3 = svgMap.selectAll("circle")
+            .data(places3, function(d) { return d; }).enter()
+            .append("circle")
+            .attr("transform", function(d){
+                return "translate(" + projection(d) + ")";
+            })
+            .attr("r", "6px")
+            .attr("opacity", 0.5)
+            .attr("fill", "black")
+            .attr("class", function(d,i) { return "gy" + i; })
+
+        let group4 = svgMap.selectAll("circle")
+            .data(places4, function(d) { return d; }).enter()
+            .append("circle")
+            .attr("transform", function(d){
+                return "translate(" + projection(d) + ")";
+            })
+            .attr("r", "8px")
+            .attr("opacity", 0.5)
+            .attr("fill", "black")
+
+        let group5 = svgMap.selectAll("circle")
+            .data(places5, function(d) { return d; }).enter()
+            .append("circle")
+            .attr("transform", function(d){
+                return "translate(" + projection(d) + ")";
+            })
+            .attr("r", "10px")
+            .attr("opacity", 0.5)
+            .attr("fill", "black")
+            .attr("class", function(d,i) { return "gy" + i; })
+
+        let group6 = svgMap.selectAll("circle")
+            .data(places6, function(d) { return d; }).enter()
+            .append("circle")
+            .attr("transform", function(d){
+                return "translate(" + projection(d) + ")";
+            })
+            .attr("r", "12px")
+            .attr("opacity", 0.5)
+            .attr("fill", "black")
+            .attr("class", function(d,i) { return "gy" + i; })
+
+        var button1 = d3.select('#G1');
+        button1.style('position', 'absolute')
+            .on("click", function(i) {
+                // group4.attr("opacity", 0)
+                // group3.attr("opacity", 0)
+                // group5.attr("opacity", 0)
+                // group6.attr("opacity", 0)
+                // group2.attr("opacity", 0)
+                group1.transition()
+                        .attr("cx", 5)
+                        .attr("opacity", 1)
+                        .attr("fill", "green")
+                        .delay(50)
+                        .duration(25)
+                        .transition()
+                        .attr("cx", -5)
+                        .attr("opacity", 1)
+                        .attr("fill", "green")
+                        .delay(50)
+                        .duration(25)
+                        .on("end",function() { // on end of transition...
+                            d3.select(this)
+                                .transition() // second transition
+                                .attr("cx", 0) // second x
+                                .attr("opacity", 0.5) // second opacity
+                                .attr("fill", "black") // second color
+                                .delay(50) // second delay
+                                .duration(90) // second time
+
+                            // group4.attr("opacity", 0.5)
+                            // group3.attr("opacity", 0.5)
+                            // group5.attr("opacity", 0.5)
+                            // group6.attr("opacity", 0.5)
+                            // group2.attr("opacity", 0.5)
+                })});
+
+        var button2 = d3.select('#G2');
+        button2.style('position', 'absolute')
+            .on("click", function(i) {
+                // group4.attr("opacity", 0)
+                // group3.attr("opacity", 0)
+                // group5.attr("opacity", 0)
+                // group6.attr("opacity", 0)
+                // group1.attr("opacity", 0)
+
+                group2.transition()
+                    .attr("cx", 5)
+                    .attr("r", "4px")
+                    .attr("opacity", 1)
+                    .attr("fill", "red")
+                    .delay(50)
+                    .duration(90)
+                    .transition()
+                    .attr("cx", -5)
+                    .attr("r", "4px")
+                    .attr("opacity", 1)
+                    .attr("fill", "red")
+                    .delay(50)
+                    .duration(90)
+                    .transition()
+                    .attr("cx", 5)
+                    .attr("r", "4px")
+                    .attr("opacity", 1)
+                    .attr("fill", "red")
+                    .delay(50)
+                    .duration(90)
+                    .transition()
+                    .attr("cx", -5)
+                    .attr("r", "4px")
+                    .attr("opacity", 1)
+                    .attr("fill", "red")
+                    .delay(50)
+                    .duration(90)
+                    .on("end",function() { // on end of transition...
+                        d3.select(this)
+                            .transition() // second transition
+                            .attr("cx", 0) // second x
+                            .attr("r", "4px")
+                            .attr("opacity", 0.5) // second opacity
+                            .attr("fill", "black") // second color
+                            .delay(50) // second delay
+                            .duration(90) // second time
+
+                        // group4.attr("opacity", 0.5)
+                        // group3.attr("opacity", 0.5)
+                        // group5.attr("opacity", 0.5)
+                        // group6.attr("opacity", 0.5)
+                        // group1.attr("opacity", 0.5)
+                    })});
+
+        var button3 = d3.select('#G3');
+        button3.style('position', 'absolute')
+            .on("click", function(i) {
+                group3.transition()
+                    .attr("cx", 5)
+                    .attr("r", "6px")
+                    .attr("opacity", 1)
+                    .attr("fill", "red")
+                    .delay(50)
+                    .duration(90)
+                    .transition()
+                    .attr("cx", -5)
+                    .attr("r", "6px")
+                    .attr("opacity", 1)
+                    .attr("fill", "red")
+                    .delay(50)
+                    .duration(90)
+                    .transition()
+                    .attr("cx", 5)
+                    .attr("r", "6px")
+                    .attr("opacity", 1)
+                    .attr("fill", "red")
+                    .delay(50)
+                    .duration(90)
+                    .transition()
+                    .attr("cx", -5)
+                    .attr("r", "6px")
+                    .attr("opacity", 1)
+                    .attr("fill", "red")
+                    .delay(50)
+                    .duration(90)
+                    .on("end",function() { // on end of transition...
+                        d3.select(this)
+                            .transition() // second transition
+                            .attr("cx", 0) // second x
+                            .attr("r", "6px")
+                            .attr("opacity", 0.5) // second opacity
+                            .attr("fill", "black") // second color
+                            .delay(50) // second delay
+                            .duration(25) // second time
+                    })});
+
+        var button4 = d3.select('#G4');
+        button4.style('position', 'absolute')
+            .on("click", function(i) {
+
+                // group2.attr("opacity", 0)
+                // group3.attr("opacity", 0)
+                // group5.attr("opacity", 0)
+                // group6.attr("opacity", 0)
+                // group1.attr("opacity", 0)
+
+                group4.transition()
+                    .attr("cx", 5)
+                    .attr("r", "8px")
+                    .attr("opacity", 1)
+                    .attr("fill", "red")
+                    .delay(50)
+                    .duration(90)
+                    .transition()
+                    .attr("cx", -5)
+                    .attr("r", "8px")
+                    .attr("opacity", 1)
+                    .attr("fill", "red")
+                    .delay(50)
+                    .duration(90)
+                    .transition()
+                    .attr("cx", 5)
+                    .attr("r", "8px")
+                    .attr("opacity", 1)
+                    .attr("fill", "red")
+                    .delay(50)
+                    .duration(90)
+                    .transition()
+                    .attr("cx", -5)
+                    .attr("r", "8px")
+                    .attr("opacity", 1)
+                    .attr("fill", "red")
+                    .delay(50)
+                    .duration(90)
+                    .on("end",function() { // on end of transition...
+                        d3.select(this)
+                            .transition() // second transition
+                            .attr("cx", 0) // second x
+                            .attr("r", "8px")
+                            .attr("opacity", 0.5) // second opacity
+                            .attr("fill", "black") // second color
+                            .delay(50) // second delay
+                            .duration(90) // second time
+                        // group2.attr("opacity", 0.5)
+                        // group3.attr("opacity", 0.5)
+                        // group5.attr("opacity", 0.5)
+                        // group6.attr("opacity", 0.5)
+                        // group1.attr("opacity", 0.5)
+                    })});
+
+        var button5 = d3.select('#G5');
+        button5.style('position', 'absolute')
+            .on("click", function(i) {
+                // group2.attr("opacity", 0)
+                // group3.attr("opacity", 0)
+                // group4.attr("opacity", 0)
+                // group6.attr("opacity", 0)
+                // group1.attr("opacity", 0)
+
+                group5.transition()
+                    .attr("cx", 5)
+                    .attr("r", "10px")
+                    .attr("opacity", 1)
+                    .attr("fill", "red")
+                    .delay(50)
+                    .duration(90)
+                    .transition()
+                    .attr("cx", -5)
+                    .attr("r", "10px")
+                    .attr("opacity", 1)
+                    .attr("fill", "red")
+                    .delay(50)
+                    .duration(90)
+                    .transition()
+                    .attr("cx", 5)
+                    .attr("r", "10px")
+                    .attr("opacity", 1)
+                    .attr("fill", "red")
+                    .delay(50)
+                    .duration(90)
+                    .transition()
+                    .attr("cx", -5)
+                    .attr("r", "10px")
+                    .attr("opacity", 1)
+                    .attr("fill", "red")
+                    .delay(50)
+                    .duration(90)
+                    .on("end",function() { // on end of transition...
+                        d3.select(this)
+                            .transition() // second transition
+                            .attr("cx", 0) // second x
+                            .attr("r", "10px")
+                            .attr("opacity", 0.5) // second opacity
+                            .attr("fill", "black") // second color
+                            .delay(50) // second delay
+                            .duration(90) // second time
+
+                        // group2.attr("opacity", 0.5)
+                        // group3.attr("opacity", 0.5)
+                        // group4.attr("opacity", 0.5)
+                        // group6.attr("opacity", 0.5)
+                        // group1.attr("opacity", 0.5)
+                    })});
+
+        var button6 = d3.select('#G6');
+        button6.style('position', 'absolute')
+            .on("click", function(i) {
+                // group2.attr("opacity", 0)
+                // group3.attr("opacity", 0)
+                // group4.attr("opacity", 0)
+                // group5.attr("opacity", 0)
+                // group1.attr("opacity", 0)
+
+                group6.transition()
+                    .attr("cx", 5)
+                    .attr("r", "12px")
+                    .attr("opacity", 1)
+                    .attr("fill", "red")
+                    .delay(50)
+                    .duration(90)
+                    .transition()
+                    .attr("cx", -5)
+                    .attr("r", "12px")
+                    .attr("opacity", 1)
+                    .attr("fill", "red")
+                    .delay(50)
+                    .duration(90)
+                    .transition()
+                    .attr("cx", 5)
+                    .attr("r", "12px")
+                    .attr("opacity", 1)
+                    .attr("fill", "red")
+                    .delay(50)
+                    .duration(90)
+                    .transition()
+                    .attr("cx", -5)
+                    .attr("r", "12px")
+                    .attr("opacity", 1)
+                    .attr("fill", "red")
+                    .delay(50)
+                    .duration(90)
+                    .on("end",function() { // on end of transition...
+                        d3.select(this)
+                            .transition() // second transition
+                            .attr("cx", 0) // second x
+                            .attr("r", "12px")
+                            .attr("opacity", 0.5) // second opacity
+                            .attr("fill", "black") // second color
+                            .delay(50) // second delay
+                            .duration(90) // second time
+                        // group2.attr("opacity", 0.5)
+                        // group3.attr("opacity", 0.5)
+                        // group4.attr("opacity", 0.5)
+                        // group5.attr("opacity", 0.5)
+                        // group1.attr("opacity", 0.5)
+                    })});
+    });
+
+
+    //barChart(data);
+    //barChartAxis();
+    /*    data.forEach(function (d) {
+            if (d.value){
+                sum = sum + d.value;
+            }
+        });*/
+
+    //pieChart(data,["#a06a72"]);
+
+
 </script>
 </body>
 </html>
-

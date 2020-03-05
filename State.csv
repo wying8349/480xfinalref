@@ -1,119 +1,30 @@
-index,State,Counts
-39,Afghanistan,10
-1,Alaska,2195
-109,Anguilla,1
-38,Argentina,11
-59,Arizona,3
-61,Arkansas,3
-110,Ascension Island region,1
-51,Australia,3
-106,Azerbaijan,1
-111,Azores-Cape St. Vincent Ridge,1
-54,Bolivia,3
-6,British Virgin Islands,98
-48,Burma,4
-0,California,3609
-11,Canada,57
-107,Central East Pacific Rise,1
-115,Central Mid-Atlantic Ridge,1
-82,Chagos Archipelago region,1
-18,Chile,35
-32,China,14
-86,Christmas Island,1
-67,Colombia,2
-44,Colorado,8
-47,Costa Rica,4
-84,Cyprus,1
-20,Dominican Republic,31
-100,East Timor,1
-87,East of the Kuril Islands,1
-73,Ecuador,2
-70,El Salvador,2
-30,Fiji,17
-57,Fiji region,3
-117,Georgia,1
-69,Greece,2
-79,Greenland Sea,1
-72,Guam,2
-45,Guatemala,6
-3,Hawaii,225
-28,Idaho,18
-55,Illinois,3
-65,India,2
-10,Indonesia,63
-53,Iran,3
-35,Italy,14
-15,Japan,40
-76,Japan region,2
-23,Kansas,21
-96,Kiribati region,1
-103,Kuril Islands,1
-43,Kyrgyzstan,9
-88,Martinique,1
-14,Mexico,42
-112,Mid-Indian Ridge,1
-36,Missouri,12
-7,Montana,96
-2,Nevada,712
-19,New Caledonia,32
-83,New Hampshire,1
-52,New Jersey,3
-116,New York,1
-26,New Zealand,19
-50,Nicaragua,4
-92,North Carolina,1
-64,North of Ascension Island,2
-94,North of Svalbard,1
-63,Northern California,3
-13,Northern Mariana Islands,53
-75,Northern Mid-Atlantic Ridge,2
-114,Northwest of Australia,1
-66,Off the coast of Oregon,2
-98,Ohio,1
-9,Oklahoma,66
-8,Oregon,81
-68,Pacific-Antarctic Ridge,2
-89,Pakistan,1
-105,Palau,1
-60,Panama,3
-21,Papua New Guinea,28
-95,Pennsylvania,1
-34,Peru,14
-27,Philippines,18
-104,Poland,1
-62,Portugal,3
-5,Puerto Rico,156
-80,Reykjanes Ridge,1
-22,Russia,27
-40,Solomon Islands,10
-31,South Georgia Island region,16
-25,South Georgia and the South Sandwich Islands,20
-46,South Indian Ocean,5
-49,South Sandwich Islands,4
-90,South of Africa,1
-81,South of Panama,1
-29,South of the Fiji Islands,17
-58,Southern East Pacific Rise,3
-56,Southern Mid-Atlantic Ridge,3
-42,Southwest Indian Ridge,9
-91,Syria,1
-97,Taiwan,1
-37,Tajikistan,12
-24,Tennessee,20
-99,Texas,1
-33,Tonga,14
-74,Turkey,2
-16,U.S. Virgin Islands,38
-102,Ukraine,1
-12,Utah,56
-93,Uzbekistan,1
-41,Vanuatu,9
-85,Vanuatu region,1
-71,Venezuela,2
-108,Virgin Islands region,1
-101,Virginia,1
-4,Washington,171
-113,West Virginia,1
-78,Western Indian-Antarctic Ridge,1
-77,Western Xizang,2
-17,Wyoming,37
+,State,Counts
+0,Alaska,1855
+17,Arizona,3
+19,Arkansas,3
+1,California,1610
+14,Colorado,8
+15,Costa Rica,4
+27,Georgia,1
+3,Hawaii,183
+18,Illinois,3
+11,Kansas,21
+13,Missouri,12
+9,Montana,41
+2,Nevada,197
+23,New Hampshire,1
+20,New York,1
+25,North Carolina,1
+26,Ohio,1
+6,Oklahoma,66
+7,Oregon,63
+16,Panama,3
+28,Pennsylvania,1
+4,Puerto Rico,156
+12,Tennessee,20
+21,Texas,1
+8,Utah,41
+24,Virginia,1
+5,Washington,82
+22,West Virginia,1
+10,Wyoming,23
