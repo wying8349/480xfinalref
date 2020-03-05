@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Earthquakes in a Month</title>
+
+    <link rel="stylesheet" type="text/css" href="css/stile_languages.css">
+    <link rel="stylesheet" href="/css/apercu/stylesheet.css" type="text/css" charset="utf-8" />
+    <link rel="stylesheet" href="/css/farnham/stylesheet.css" type="text/css" charset="utf-8" />
+
+    <script data-require="d3@4.0.0" data-semver="4.0.0" src="https://d3js.org/d3.v4.min.js"></script>
+    <script src="https://d3js.org/d3.v4.min.js"></script>
+    <script src="https://d3js.org/d3.v5.min.js"></script>
+    <script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
+    <script src="https://d3js.org/d3-geo-projection.v2.min.js"></script>
+    <style type="text/css">
+        body,html{
+            margin: 0;
+            padding: 0;
+            font-family: "Arial", sans-serif;
+            font-size: 11px;
+            text-align: center;
+        }
+
+        div.tooltip {
+            position: absolute;
+            text-align: left;
+            padding: 2px;
+            font: 9px "Times New Roman";
+            background: lightsteelblue;
+            border: 0px;
+            pointer-events: none;
+        }
+    </style>
+
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+
+</head>
+
+<body>
+<header id="header" class="dark_grey">
+    <div style="position: relative; z-index:5">
+        <p class="main_title" style="border-top-width:14px;	border-bottom-width:14px;">earthquake: does it sleep?</p>
+        <p class="subtitle" style="color:#F2EDE7">~ Analysis of all earthquake records in the USA for August 2016 ~</p>
+        <!--<br> <br> -->
+        <br>
+        <p class="note" style="color:#DFD6C7">with data from USGS</p>
+        <!--<p id="greca_ondina_2"></p>-->
+        <p class="maiusc" style="color:#DFD6C7; padding-top:32px;"><!--<a href="http://www.puffpuffproject.com/">--> ~ Wenjing Ying & Yang Gao ~</a></p>
+        <p class="fonte" style="color:#DFD6C7; background:none; margin-top:7px;">Final Project for CS480x-C20</p>
+    </div>
+    <!--<div style="position:relative; bottom:339px; z-index:0; text-align:center; opacity:.7"><img src="/img/gif/puffpuff.gif"></div>-->
+</header>
+
+<!-- 		Where is the data from and why is it trustable 	-->
+<section id="EQSignificance" class="beige">
+    <div style="width:960px; display:block; margin:auto auto;">
+        <div class="balloon"></div>
+        <p class="title" style="border:none; text-transform:none; color:#444945; margin-top:40px;">What’s USGS?</p>
+        <p class="testo" style="padding-bottom:40px;">
+            USGS provides science about the natural hazards that threaten lives and livelihoods;
+            the water, energy, minerals, and other natural resources human beings rely on;
+            the health of our ecosystems and environment;
+            and the impacts of climate and land-use change.
+            <br>
+            USGS scientists develop new methods and tools to supply timely, relevant, and useful information about the Earth and its processes.</p>
+    </div>
+</section>
+
+<!-- 		Earthquakes in US 	-->
+<section id="EQS US Map" class="light_grey" style="color:#444945;">
+    <p class="fonte">* Dataset acquired from <a href="https://think.cs.vt.edu/corgis/csv/earthquakes/">the CORGIS Dataset Project</a></p>
+    <h2 class="title">Earthquakes around the world</h2>
+    <p class="subtitle">
+        <font class="subtitle" color="E29782">8394</font>
+        &nbsp;Earthquakes are recorded by the USGS around the world from July 27 to August 25 in 2016.
+        <br><font class="subtitle" color="E29782">1855</font>
+        &nbsp;Earthquakes are taken place in Alaska
+        <br> <font class="subtitle" color="E29782">1610</font>
+        &nbsp;Earthquakes are taken place in California
+        <br> Click on the button below to check the corresponding magnitude from level 1 to level 10
+<!--        <font class="subtitle" color="E29782">4403</font>-->
+<!--        &nbsp;Earthquakes that has a magnitude over 1 are recorded in the US.-->
+<!--        <br>-->
+<!--        This graph portraits all earthquakes that took place in the US in that period.-->
+<!--    </p>-->
+    <p class="note2"> test note 2 </p>
+    <div id = "usMap" class="immagine" style="height:800px;"> </div>
+    <div id="nav" style="z-index:50; position:absolute; width:100%; margin-top:-50px;">
+        <ul>
+            <li id = "G1" class="bottone2_mandarin left_rounded black">Level 1</li>
+            <li id = "G2" class="bottone2_spanish rounded black">Level 2</li>
+            <li id = "G3" class="bottone2_english rounded black">Level 3</li>
+            <li id = "G4" class="bottone2_hindi rounded black">Level 4</li>
+            <li id = "G5" class="bottone2_portuguese rounded black">Level 5</li>
+            <li id = "G6" class="bottone2_bengali rounded black">Level 6</li>
+            <li id = "G7" class="bottone2_russian rounded black">Level 7</li>
+            <li id = "G8" class="bottone2_japanese rounded black">Level 8</li>
+            <li id = "G9" class="bottone2_javanese rounded black">Level 9</li>
+            <li id = "G10" class="bottone2_german right_rounded black">Level 10</li>
+        </ul>
+    </div>
+    <script src="./finalUSMap.js"></script>
+</section>
+
+<!-- 		World Map	-->
+<section id="Families Map" class="dark_grey" style="padding-top:20px">
+    <h2 class="title" style="color:#F2EDE7;">Earthquake in the US</h2>
+<!--    <p class="subtitle" style="color:#F2EDE7;">-->
+<!--        <font class="subtitle" color="E29782">10</font>-->
+<!--        &nbsp;language families,-->
+<!--        <br>spoken by at least-->
+<!--        <font class="subtitle" color="E29782">1%</font>-->
+<!--        of world population-->
+<!--    </p>-->
+    <div id = "mapChartw" class="immagine" style="height:800px;"> </div>
+    <div id="nav" style="z-index:50;">
+        <ul>
+            <li id = "G1w" class="bottone_indo left_rounded">level 1</li>
+            <li id = "G2w" class="bottone_sino rounded">level 2</li>
+            <li id = "G3w" class="bottone_niger rounded">level 3</li>
+            <li id = "G4w" class="bottone_afroa rounded">level 4</li>
+            <li id = "G5w" class="bottone_austrones rounded">level 5</li>
+            <li id = "G6w" class="bottone_drav rounded">level 6</li>
+            <li id = "G7w" class="bottone_altaic rounded">level 7</li>
+            <li id = "G8w" class="bottone_japan rounded">level 8</li>
+            <li id = "G9w" class="bottone_kadai rounded">level 9</li>
+            <li id = "G10w" class="bottone_austroas right_rounded">level 10</li>
+        </ul>
+    </div>
+    <script src="./finalUSMap.js"></script>
+    <script src="./finalWMap.js"></script>
+</section>
+
+<!-- 		Boxplot 	-->
+<section id="Languages in the world" class="light_grey">
+    <h2 class="title" style="color:#444945;">When does earthquake sleep?</h2>
+    <p class="subtitle" style="color:#444945;">
+        <font class="subtitle" color="E29782">63</font> &nbsp;Earthquakes happend in Indonesia from July 27 to August 25, making Indonesia the country recorded the most
+<!--        <font class="subtitle" color="E29782">1.322</font><br>languages belonging to the <font class="subtitle" color="E29782">10</font> most spoken families</p>-->
+    <div id = "boxPlot" class="immagine" style="height:735px; margin-top:10px; margin-bottom:100px"></div>
+    <script src="./BoxPlot.js"></script>
+</section>
+
+<!-- 	Radar	-->
+<section id="WOLD" class="beige">
+    <h2 class="title" style="color:#444945;">What is the Average Impact?</h2>
+    <p class="subtitle" style="color:#444945;">shown by the average data collected for 4403 earthquakes occured in United States</br>
+        The average gap is <font class="subtitle" color="E29782">91.79</font></br>
+        The average magnitude is around <font class="subtitle" color="E29782">1.77</font></br>
+        The average significance is <font class="subtitle" color="E29782">49.32</font> </br>
+        The average depth is <font class="subtitle" color="E29782">22.16</font> </br>
+        The average distance is <font class="subtitle" color="E29782">0.118 </font></p>
+    <div id = "radarChart" class="immagine" style="margin-top:20px; height:400px;"></div>
+    <script src="./Radar.js"></script>
+</section>
+
+<!--&lt;!&ndash; 		LOANWORDS BETWEEN LANGUAGES	&ndash;&gt;-->
+<!--<section id="Loanwords" class="dark_grey">-->
+<!--    <h2 class="title" style="color:#F2EDE7;">Languages' loanwords</h2>-->
+<!--    <p class="subtitle" style="color:#F2EDE7;"> <font class="subtitle" color="E29782">14.680</font> &nbsp;exchange words among languages</p>-->
+
+<!--</section>-->
+
+
+<!--&lt;!&ndash; 		FINAL PART 	&ndash;&gt;-->
+<!--<section id="final" class="light_grey">-->
+<!--    <div id="greca_1"></div>-->
+<!--    <div style="width:960px; display:block; margin:auto auto;">-->
+<!--        <div class="balloon"></div>-->
+<!--        <p class="title" style="border:none; text-transform:none; color:#444945; margin-top:40px;">What’s Average Impact?</p>-->
+<!--        <p class="testo" style="padding-bottom:40px;">The <b>Impact</b> provides vocabularies of 41 languages<br>from around the world, with comprehensive <b>information about the loanword status</b> of each word.<br>It allows users to find loanwords, source words and donor languages in each of the 41 languages,<br>but also makes it easy to compare loanwords across languages.</p>-->
+<!--    </div>-->
+<!--    <div style="width:960px; display:block; margin:auto auto; margin-top:40px; margin-bottom:40px;">-->
+<!--        <p class="quote" style="color:#444945; font-family:farnhamdisplay-boldregular">«Time changes all things; there is no reason why</br>language should escape this universal law»</p>-->
+<!--        <p class="quote_author" style="color:#444945">~ De Saussure, Ferdinand</p>-->
+<!--    </div>-->
+
+<!--    <div id="greca_2"></div>-->
+<!--    <div class="dark_grey" style="height:360px; margin-bottom:-20px;">-->
+<!--        <h2 class="title" style="color:#F2EDE7">our family</h2>-->
+<!--        <p class="fonte" style="color:#DFD6C7; background:none; margin-top:7px;"><a href="http://www.puffpuffproject.com/">www.puffpuffproject.com</a></p>-->
+<!--        <table id="aboutus">-->
+<!--            <tr>-->
+<!--                <td><img src="/img/aboutus/sofia.png"></td>-->
+<!--                <td><img src="/img/aboutus/eleonora.png"></td>-->
+<!--                <td><img src="/img/aboutus/pietro.png"></td>-->
+<!--                <td><img src="/img/aboutus/daniele.png"></td>-->
+<!--                <td><img src="/img/aboutus/emilio.png"></td>-->
+<!--            </tr>-->
+<!--            <tr>-->
+<!--                <td>Sofia Girelli</td>-->
+<!--                <td>Eleonora Grotto</td>-->
+<!--                <td>Pietro Lodi</td>-->
+<!--                <td>Daniele Lupatini</td>-->
+<!--                <td>Emilio Patuzzo</td>-->
+<!--            </tr>-->
+<!--        </table>-->
+<!--    </div>-->
+
+</section>
+
+<!-- Don't Change This
+<div class="footer">
+    <div id="foot-logos">
+        <a href="http://www.dipartimentodesign.polimi.it/"><img src="/img/logos/dip_logo.png"></a>
+        <a href="http://www.densitydesign.org/"><img src="/img/logos/density_logo.png"></a>
+    </div>
+
+    <div id="foot-text">
+        <p class="text"><strong>Faculty</strong>
+            </br>Paolo Ciuccarelli</br>Marco Fattore</br>Stefano Mandato</br>Donato Ricci</br>Salvatore Zingale
+        </p>
+    </div>
+    <div id="foot-text">
+        <p class="text"><strong>Teaching Assistants</strong>
+            </br>Matteo Azzi</br>Giorgio Caviglia</br>Michele Mauri</br>Azzurra Pini</br>Giorgio Uboldi
+        </p>
+    </div>
+</div>-->
+</body>
+</html>
