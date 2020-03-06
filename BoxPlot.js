@@ -1,7 +1,7 @@
 // set the dimensions and margins of the graph
 var margin_b = {top: 10, right: 30, bottom: 30, left: 40},
     width_b = 1000 - margin_b.left - margin_b.right,
-    height_b = 800 - margin_b.top - margin_b.bottom;
+    height_b = 600 - margin_b.top - margin_b.bottom;
 
 // append the svg object to the body of the page
 var svg_b = d3.select("#boxPlot")

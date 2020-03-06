@@ -1,9 +1,53 @@
-[
-  [
-    {"area": "gap", "value": 111.83},
-    {"area": "magnitude", "value": 15.129},
-    {"area": "significance", "value": 56.345},
-    {"area": "depth", "value": 23.05},
-    {"area": "distance", "value": 37.58}
+{
+  "clusters": [
+    [
+        {"area": "gap", "value":  0.256407611},
+        {"area": "magnitude", "value": 0.147271623},
+        {"area": "significance", "value": 0.038828935},
+        {"area": "depth", "value": 0.106179037},
+        {"area": "distance", "value": 0.044066019}
+    ],
+    [
+        {"area": "gap", "value":  0.246820663},
+        {"area": "magnitude", "value": 0.045536832},
+        {"area": "significance", "value": 0.008792548},
+        {"area": "depth", "value": 0.077139624},
+        {"area": "distance", "value": 0.030878595}
+    ],
+    [
+        {"area": "gap", "value":  0.25258024},
+        {"area": "magnitude", "value": 0.181854161},
+        {"area": "significance", "value": 0.042954921},
+        {"area": "depth", "value": 0.125417567},
+        {"area": "distance", "value": 0.041767108}
+    ],
+    [
+        {"area": "gap", "value":  0.319136055},
+        {"area": "magnitude", "value": 0.391057663},
+        {"area": "significance", "value": 0.123260379},
+        {"area": "depth", "value": 0.151409198},
+        {"area": "distance", "value": 0.095428895}
+    ],
+    [
+        {"area": "gap", "value":  0.249762832},
+        {"area": "magnitude", "value": 0.621123872},
+        {"area": "significance", "value": 0.266584137},
+        {"area": "depth", "value": 0.120133838},
+        {"area": "distance", "value": 0.172476345}
+    ],
+    [
+        {"area": "gap", "value":  0.30551676},
+        {"area": "magnitude", "value": 0.795923913},
+        {"area": "significance", "value": 0.434671946},
+        {"area": "depth", "value": 0.120770813},
+        {"area": "distance", "value": 0.291404096}
+    ],
+    [
+        {"area": "gap", "value":  0.075418994},
+        {"area": "magnitude", "value": 1},
+        {"area": "significance", "value": 0.528280543},
+        {"area": "depth", "value": 0.28297103},
+        {"area": "distance", "value": 0.088617566}
+    ]
   ]
-]
+}

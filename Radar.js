@@ -7,7 +7,7 @@ var width = 300,
 var config = {
     w: width,
     h: height,
-    maxValue: 100,
+    maxValue: 1,
     levels: 5,
     ExtraWidthX: 300
 }
@@ -29,7 +29,7 @@ var RadarChart = {
             TranslateY: 30,
             ExtraWidthX: 100,
             ExtraWidthY: 100,
-            color: d3.scaleOrdinal().range(["#6F257F", "#CA0D59"])
+            color: d3.scaleOrdinal().range(["#6F257F","#ffffcc","#ffeda0","#fed976","#feb24c","#fd8d3c","#fc4e2a"])
         };
 
         if('undefined' !== typeof options){
@@ -40,7 +40,7 @@ var RadarChart = {
             }
         }
 
-        cfg.maxValue = 100;
+        cfg.maxValue = 1;
 
         var allAxis = (d[0].map(function(i, j){return i.area}));
         var total = allAxis.length;
@@ -89,7 +89,7 @@ var RadarChart = {
                 .style("font-size", "10px")
                 .attr("transform", "translate(" + (cfg.w/2-levelFactor + cfg.ToRight) + ", " + (cfg.h/2-levelFactor) + ")")
                 .attr("fill", "#737373")
-                .text((j+1)*100/cfg.levels);
+                .text((j+1)*1/cfg.levels);
         }
 
         series = 0;
@@ -147,9 +147,12 @@ var RadarChart = {
                 })
                 .style("fill", function(j, i){return cfg.color(series)})
                 .style("fill-opacity", cfg.opacityArea)
+                .attr("class", function(d,i) { return "rpl" + i; })
             series++;
         });
         series=0;
+
+
 
 
         d.forEach(function(y, x){
@@ -184,5 +187,6 @@ var RadarChart = {
 //Call function to draw the Radar chart
 d3.json("data.json").then(function(data) {
     console.log(data);
-    RadarChart.draw("#radarChart", data, config);
-})
+    RadarChart.draw("#radarChart", data.clusters, config);
+});
+
